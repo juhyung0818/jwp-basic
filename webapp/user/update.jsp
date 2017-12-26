@@ -1,8 +1,18 @@
-<!DOCTYPE html>
+<%--
+  Created by IntelliJ IDEA.
+  User: YJH
+  Date: 2017. 12. 20.
+  Time: PM 2:26
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="kr">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
     <title>SLiPP Java Web Programming</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -56,29 +66,46 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse2">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="../index.html">Posts</a></li>
-                <li><a href="../user/login.html" role="button">로그인</a></li>
-                <li><a href="../user/form.html" role="button">회원가입</a></li>
+                <c:choose>
+                    <c:when test = "${not empty sessionScope.user}">
+                        <li class="active"><a href="../index.html">Posts</a></li>
+                        <li><a href="../user/login.html" role="button">로그인</a></li>
+                        <li><a href="../user/form.html" role="button">회원가입</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="/user/logout" role="button">로그아웃</a></li>
+                        <li><a href="../user/profile.html" role="button">개인정보수정</a></li>
+                    </c:otherwise>
+                </c:choose>
             </ul>
         </div>
     </div>
 </div>
 
 <div class="container" id="main">
-   <div class="col-md-6 col-md-offset-3">
-      <div class="panel panel-default content-main">
-          <form name="question" method="post" action="/user/login">
-              <div class="form-group">
-                  <label for="userId">사용자 아이디</label>
-                  <input class="form-control" id="userId" name="userId" placeholder="User ID">
-              </div>
-              <div class="form-group">
-                  <label for="password">비밀번호</label>
-                  <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-              </div>
-              <button type="submit" class="btn btn-success clearfix pull-right">로그인</button>
-              <div class="clearfix" />
-          </form>
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default content-main">
+            <form name="question" method="post" action="/user/create">
+                <div class="form-group">
+                    <label for="userId">사용자 아이디</label>
+                    <input type="hidden text" class="form-control" id="userId" name="userId" value=${user.userId}>
+
+                </div>
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" value=${user.password}>
+                </div>
+                <div class="form-group">
+                    <label for="name">이름</label>
+                    <input class="form-control" id="name" name="name" placeholder="Name" value=${user.name}>
+                </div>
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" value=${user.email}>
+                </div>
+                <button type="submit" class="btn btn-success clearfix pull-right">수정완료</button>
+                <div class="clearfix" />
+            </form>
         </div>
     </div>
 </div>
@@ -87,5 +114,6 @@
 <script src="../js/jquery-2.2.0.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/scripts.js"></script>
-	</body>
+</body>
+</html>
 </html>
